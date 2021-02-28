@@ -11,8 +11,22 @@ export class AuthServiceService
 {
 	private serverAuthURL = "http://localhost:8080/authenticate";
 	authRequest: any;
+    loginErrorMessage: string;
 
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient) 
+    {
+        this.loginErrorMessage = "";
+    }
+
+    setLoginErrorMessage(message: string)
+    {
+        this.loginErrorMessage = message;
+    }
+
+    getLoginErrorMessage(): string
+    {
+        return this.loginErrorMessage;
+    }
 
 	login(userName: string, password: string)
 	{

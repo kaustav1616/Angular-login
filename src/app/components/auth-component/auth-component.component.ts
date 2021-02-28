@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router } from '@angular/router';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-auth-component',
@@ -22,12 +24,30 @@ export class AuthComponentComponent implements OnInit
 
     ngOnInit(): void 
     {
-        // localStorage.setItem("id_token", "");
+        let message = this.authService.getLoginErrorMessage();
+
+        if(message) // set by angular interceptor due to token expiry (has been redirected from there)
+        {
+            this.errorMessage = message;
+            this.authService.setLoginErrorMessage("");
+        }
+    }
+
+    isLoggedIn(): boolean
+    {
+        const helper = new JwtHelperService();
+        const token = localStorage.getItem("id_token");
+
+        if(token == null) // user has logged out (and thus cleared token)
+            return false;
+
+        // returns false if jwt token is there in memory but expired (user did not logout but stayed idle for too long)
+        return (!helper.isTokenExpired(token));
     }
 
     onSubmit()
     {
-        if(localStorage.getItem("id_token"))
+        if(this.isLoggedIn())
         {
             this.errorMessage = "Already logged in!";
             return;
