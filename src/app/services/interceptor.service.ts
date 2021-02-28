@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { AuthComponentComponent } from '../components/auth-component/auth-component.component';
 import { AuthServiceService } from './auth-service.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,12 @@ export class InterceptorService implements HttpInterceptor
   {
     const helper = new JwtHelperService();
     const token = localStorage.getItem("id_token");
-
-    console.log("inside interceptor");
+    const offset = new Date().getTimezoneOffset();
+    console.log(offset);
 
     if(token) 
     {
-        if(helper.isTokenExpired(token)) // jwt token is there in memory but expired (user did not logout but stayed idle for too long)
+        if(helper.isTokenExpired(token, offset * 60)) // jwt token is there in memory but expired (user did not logout but stayed idle for too long)
             return next.handle(req).pipe(tap((event: HttpEvent<any>) => 
                 {
                    console.log("success");

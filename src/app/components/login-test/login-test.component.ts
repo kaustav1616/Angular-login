@@ -17,8 +17,6 @@ export class LoginTestComponent implements OnInit
 
   ngOnInit(): void 
   {
-    // localStorage.setItem("id_token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYXVzdGF2IiwiZXhwIjoxNjA5OTY1MDIxLCJpYXQiOjE2MDk5MjkwMjF9.zJSd8alJUw3hd5Cc2vG2Jj9TeVQbZJpjRWAfkt8GIwQ")
-    
     this.authService.loginTest().subscribe
     (
         data =>
