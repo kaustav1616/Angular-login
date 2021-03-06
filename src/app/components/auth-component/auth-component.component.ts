@@ -3,6 +3,7 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router } from '@angular/router';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { stringify } from '@angular/compiler/src/util';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-auth-component',
@@ -15,7 +16,8 @@ export class AuthComponentComponent implements OnInit
     password: string;
     errorMessage: string;
 
-    constructor(private authService: AuthServiceService, private router: Router)
+    constructor(private authService: AuthServiceService, 
+        private router: Router)
     {
         this.userName = "";
         this.password = "";
@@ -23,7 +25,7 @@ export class AuthComponentComponent implements OnInit
     }
 
     ngOnInit(): void 
-    {
+    {   
         let message = this.authService.getLoginErrorMessage();
 
         if(message) // set by angular interceptor due to token expiry (has been redirected from there)
@@ -49,7 +51,7 @@ export class AuthComponentComponent implements OnInit
     {
         if(this.isLoggedIn())
         {
-            this.errorMessage = "Already logged in!";
+            this.router.navigateByUrl("login-test");
             return;
         }
 

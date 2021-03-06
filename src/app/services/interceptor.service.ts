@@ -49,7 +49,7 @@ export class InterceptorService implements HttpInterceptor
 
         return next.handle(cloned);
     }
-    else // fresh login request (after user has logged out and thus cleared the previously stored token)
+    else // fresh login request (after user has logged out and thus cleared the previously stored token) / registration request
     {
         return next.handle(req);
     }

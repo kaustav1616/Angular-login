@@ -9,10 +9,12 @@ import { LoginTestComponent } from './components/login-test/login-test.component
 import { Routes, RouterModule} from '@angular/router';
 import { InterceptorService } from './services/interceptor.service';
 import { LogoutComponent } from './components/logout/logout.component';
+import {RegisterComponent} from './components/register/register.component';
 
 const routes: Routes = [
     {path: "login", component: AuthComponentComponent},
-    {path: "logout", component: LogoutComponent},
+    // {path: "logout", component: LogoutComponent},
+    {path: "register", component: RegisterComponent},
     {path: "login-test", component: LoginTestComponent},
     {path: "", redirectTo: "login", pathMatch: 'full'}];
 
@@ -21,7 +23,8 @@ const routes: Routes = [
     AppComponent,
     AuthComponentComponent,
     LoginTestComponent,
-    LogoutComponent
+    LogoutComponent,
+    RegisterComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

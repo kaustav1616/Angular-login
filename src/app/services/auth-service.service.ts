@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import * as moment from "moment";
@@ -16,6 +16,15 @@ export class AuthServiceService
 	constructor(private http: HttpClient) 
     {
         this.loginErrorMessage = "";
+    }
+
+    register(userName: string, password: string)
+    {
+        let params = new HttpParams()
+            .set('userName', userName)
+            .set('password', password);
+        
+        return this.http.post("http://localhost:8080/register", {}, {params, responseType: 'text'});
     }
 
     setLoginErrorMessage(message: string)
