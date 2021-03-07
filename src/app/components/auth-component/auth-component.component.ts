@@ -35,21 +35,9 @@ export class AuthComponentComponent implements OnInit
         }
     }
 
-    isLoggedIn(): boolean
-    {
-        const helper = new JwtHelperService();
-        const token = localStorage.getItem("id_token");
-
-        if(token == null) // user has logged out (and thus cleared token)
-            return false;
-
-        // returns false if jwt token is there in memory but expired (user did not logout but stayed idle for too long)
-        return (!helper.isTokenExpired(token));
-    }
-
     onSubmit()
     {
-        if(this.isLoggedIn())
+        if(this.authService.isLoggedIn())
         {
             this.router.navigateByUrl("login-test");
             return;

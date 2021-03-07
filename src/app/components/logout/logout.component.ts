@@ -9,18 +9,35 @@ import { Router } from '@angular/router';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private authService: AuthServiceService, private router: Router) { }
+    message: string;
 
-  ngOnInit(): void {
+  constructor(private authService: AuthServiceService, private router: Router) 
+  {
+    this.message = "";
+  }
+
+  ngOnInit(): void 
+  {
+    this.message = "";
   }
 
   onClickMe()
   {
     this.authService.logout().subscribe(data =>
         {
-            console.log(data);
-            this.router.navigateByUrl("login");
+            this.message = data;
+
+            // persisting message for 1.5 seconds (no user logged in / logout successful etc.)
+            this.sleep(1500).then(() => 
+            {
+                this.message = "";
+                this.router.navigateByUrl("login");
+            });
         });
   }
 
+  sleep(ms: number) 
+  {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }

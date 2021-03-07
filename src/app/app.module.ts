@@ -10,12 +10,13 @@ import { Routes, RouterModule} from '@angular/router';
 import { InterceptorService } from './services/interceptor.service';
 import { LogoutComponent } from './components/logout/logout.component';
 import {RegisterComponent} from './components/register/register.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
     {path: "login", component: AuthComponentComponent},
     // {path: "logout", component: LogoutComponent},
     {path: "register", component: RegisterComponent},
-    {path: "login-test", component: LoginTestComponent},
+    {path: "login-test", component: LoginTestComponent, canActivate: [AuthGuardService]},
     {path: "", redirectTo: "login", pathMatch: 'full'}];
 
 @NgModule({

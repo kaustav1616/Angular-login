@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import * as moment from "moment";
 import { shareReplay, tap } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,18 @@ export class AuthServiceService
 	constructor(private http: HttpClient) 
     {
         this.loginErrorMessage = "";
+    }
+
+    isLoggedIn(): boolean
+    {
+        const helper = new JwtHelperService();
+        const token = localStorage.getItem("id_token");
+
+        if(token == null) // user has logged out (and thus cleared token)
+            return false;
+
+        // returns false if jwt token is there in memory but expired (user did not logout but stayed idle for too long)
+        return (!helper.isTokenExpired(token));
     }
 
     register(userName: string, password: string)
@@ -51,6 +65,9 @@ export class AuthServiceService
 
     logout()
     {
+        if(!this.isLoggedIn())
+            return of("No user logged in currently.");
+
         return this.http.get("http://localhost:8080" + "/logout_handle", {responseType: 'text'})
             .pipe(tap(res => this.resetSession()));
     }
