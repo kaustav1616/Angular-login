@@ -17,7 +17,8 @@ export class AuthServiceService
 
 	constructor(private http: HttpClient) 
     {
-        this.loginErrorMessage = "";
+        // used to communicate between login-test component and auth component (set by interceptor when token expired)
+        this.loginErrorMessage = ""; 
     }
 
     isLoggedIn(): boolean
